@@ -1,0 +1,342 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Postfija Resultado</title>
+</head>
+<body>
+
+    <script type="text/javascript">
+    //  5*(6+2)-12/4
+    document.write("<h1>Notación Infija a Postfija con Resultado</h1>")
+    
+    var operadores1 = ["*", "/"]
+    var operadores2 = ["+", "-"]
+    var parentesisAbre = "("
+    var parentesisCierra = ")"
+    var multiplicacion = "*"
+    var division = "/"
+    var suma = "+"
+    var resta = "-"
+    var cad = ""; //5*(6+2)-9/3";
+    var cadena = [];
+    var p = []
+    var operadores = []
+    var contador = 1
+    var prueba = []
+
+    // postfija 1
+    var postfijaNotacion = "" //15,6,2,+,*,9,3,/,-,";
+    var postfija1 = []
+    var dosNum = 0;
+    var res = []
+    var resAux = []
+
+    // Programa 3
+    var resultadoPostfija = ""
+
+
+    // para saber la posicion de los datos de las pilas
+    var pos = [".0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
+
+
+    // inicia el programa
+    // agregando la cadena a una pila
+
+    cad = prompt("Ingrese la notación Infija")
+    // postfija 2
+    postfija();
+
+    // postfija 3
+    // Solo le mando la notacion del programa 2 al programa 1
+    programa3()
+
+    // postfija 1
+    //postfijaNotacion = prompt("Ingrese la notación postfija") + ","
+    postfijaPila()
+    imprimirPostfija1()
+    //imprimirRes()
+    resultado()
+    //resultado();
+
+    
+    function programa3(){
+        //document.write("Pila Postfija = ");
+        for(var i = 0; i < p.length; i++){
+            postfijaNotacion = postfijaNotacion + p[i] + ","
+        }
+        
+        //document.write("<br/>postfijaNotacion: " + postfijaNotacion + "<br/>");
+    }
+
+
+    function resultado (){
+        for(var i = 0; i < postfija1.length; i++){
+            // verificar si es numero
+            if(!isNaN(postfija1[i])){
+                document.write("Posición Pila PostFija " + i + " => Es numero: " + postfija1[i] + "<br/>")
+                res[res.length] = postfija1[i];
+                imprimirRes()
+                //document.write(i + " res.length: " + res.length + "<br/>")
+            }else{
+                document.write("Posición Pila PostFija " + i + " => No es numero: " + postfija1[i] + "<br/>")
+                imprimirRes()
+                //document.write(i + " postfija1[" + (res.length-1) + "]: " + postfija1[res.length-1] + "<br/>")
+                //document.write(i + " postfija2[" + (res.length-2) + "]: " + postfija1[res.length-2] + "<br/>")
+                //document.write("resAux: " + resAux + "<br/>")
+                if(postfija1[i] == "*"){
+                    res[res.length-2] = (parseInt(res[res.length-2]) * parseInt(res[res.length-1]))
+                    res.pop()
+                }else if(postfija1[i] == "/"){
+                    res[res.length-2] = (parseInt(res[res.length-2]) / parseInt(res[res.length-1]))
+                    res.pop()
+                }else if(postfija1[i] == "+"){
+                    res[res.length-2] = (parseInt(res[res.length-2]) + parseInt(res[res.length-1]))
+                    res.pop()
+                }else if(postfija1[i] == "-"){
+                    res[res.length-2] = (parseInt(res[res.length-2]) - parseInt(res[res.length-1]))
+                    res.pop()
+                }
+                //document.write(i + " res1[" + (res.length-1) + "]: " + res[res.length-1] + "<br/>")
+                //document.write(i + " res2[" + (res.length-2) + "]: " + res[res.length-2] + "<br/>")
+
+                //document.write("postfija[" + (i-2) + "]: " + postfija1[i-2] + "<br/>")
+                //document.write(i + " res[" + (res.length-2) + "]: " + res[res.length-2] + "<br/>")
+                //document.write(i + " res[" + (i) + "]: " + res[i] + "<br/>")
+                //document.write(i + " res[" + (i+1) + "]: " + res[i+1] + "<br/>")
+                imprimirRes()
+            }
+            
+            document.write("<br/>")
+        }
+    }
+
+    function postfijaPila (){   // 15,6,2,+,*,9,3,/,-
+        
+        //document.write("postfijaPila()<br/>")
+        var dato = ""
+        var contador = 0;
+        for(var i = 0; i < postfijaNotacion.length; i++){
+            dato = dato + postfijaNotacion.slice(i, i+1)
+            //document.write(i + " datoFor: " + dato + "<br/>")
+            if(postfijaNotacion.slice(i, i+1) == ","){
+                //document.write(i + " dato1: " + dato + "<br/>")
+                dato = dato.slice(0, dato.length-1)
+                //document.write(i + " dato2: " + dato + "<br/>")
+                postfija1[contador] = (dato)
+                //document.write(i + " postfija1[" + contador + "]: " + postfija1[contador] + "<br/>")
+                contador++;
+                dato = "";
+            }
+            //document.write(postfija1[contador] + "<br/>")
+            
+        }
+        document.write("<br/>")
+    }
+
+    function esOperadorPostfija(ope){
+        document.write("esOperador:<br/>")
+        document.write("resAux: " + resAux + " <br/>")
+        for(var i = 0; i < res.length; i++){
+            document.write("esOperador() res[" + i + "]: " + res[i] + "<br/>")
+        }
+        
+        if(ope == "*"){
+            res[resAux-2] = (parseInt(postfija1[resAux-2]) * parseInt(postfija1[resAux-1]))
+            res.pop()
+        }else if(ope == "/"){
+            res[resAux-2] = (parseInt(postfija1[resAux-2]) / parseInt(postfija1[resAux-1]))
+            res.pop()
+        }else if(ope == "+"){
+            res[resAux-2] = (parseInt(postfija1[resAux-2]) + parseInt(postfija1[resAux-1]))
+            res.pop()
+        }else{
+            res[resAux-2] = (parseInt(postfija1[resAux-2]) - parseInt(postfija1[resAux-1]))
+            res.pop()
+        }
+    }
+
+    // Imprimir Pilas
+    function imprimirPostfija1 (){
+        document.write("Pila Postfija: ")
+        for(var i = 0; i < postfija1.length; i++){
+            document.write(postfija1[i] + " ")
+        }
+        document.write("<br/><br/>")
+    }
+
+    function imprimirRes(){
+        /*
+        document.write("Posición Pila =>")
+        for(var i = 0; i < res.length; i++){
+            document.write(pos[i] + " ")
+        }
+        document.write("<br/>")*/
+
+        document.write("Pila Resultado: ")
+        for(var i = 0; i < res.length; i++){
+            document.write(res[i] + " ")
+        }
+        document.write("<br/>")  
+    }
+
+
+    // Programa 2 Infija a Postfija sin resultado
+    function postfija(){
+        
+        for(var i = 0; i < cad.length; i++){
+            cadena [i] = cad.slice(i, i+1)
+            //document.write(i + " cad: " + cad.slice(i, i+1) + "<br/>")
+        }
+
+        // Agregando la cadena a una pila
+        imprimirCadena();
+
+        // Cambiando a postfija
+        for(var i = 0; i < cadena.length; i++){
+            //document.write(i + " cambiando a postfija <br/>")
+            document.write("cadena[" + i + "] = " + cadena[i] + " <br/>")
+            //document.write("contador: " + contador + " <br/>")
+            if(cadena[i] == parentesisCierra){
+                //document.write("Es parentesis Cierra = " + cadena[i] + "<br/>")
+                //document.write("contador: " + contador + " <br/>")
+                vaciarCadena();
+
+            }else if(esOperador(cadena[i])){
+                // Definir jerarquia
+                if(esSumaResta(cadena[i])){
+                    if(operadores[operadores.length-1] == parentesisAbre){
+                        operadores.push(cadena[i])
+                        //operadores.pop()
+                        imprimirOperadores();
+                        imprimirP();
+                    }else if(operadores.length > 0 || operadores[operadores.length-1] == suma || operadores[operadores.length-1] == resta && operadores[operadores.length-1] != parentesisAbre){
+                        //document.write("EsSumaResta if = " + operadores[operadores.length-1] + "<br/>")
+                        p.push(operadores[operadores.length-1])
+                        operadores.pop()
+                        operadores.push(cadena[i])
+                        imprimirOperadores();
+                        imprimirP();
+                    }else{
+                        p.push(cadena[i])
+                        imprimirOperadores();
+                        imprimirP();
+                    }
+                }else{
+                    //document.write("Es operador = " + cadena[i] + "<br/>")
+                    //document.write("contador operador: " + contador + " <br/>")
+                    operadores.push(cadena[i])
+                    imprimirOperadores();
+                    imprimirP();
+                    document.write("<br/>");
+                }
+            }else{
+                //document.write("else: " + cadena[i] + " <br/>")
+                //document.write("contador: " + contador + " <br/>")
+                p.push(cadena[i])
+                imprimirOperadores()
+                imprimirP()
+            }
+            contador++;
+        }
+        
+        document.write("Se vacia la Pila de Operadores y se agrega a la Pila Postfija<br/>")
+        vaciarCadena()
+        document.write("<br/>")
+    }
+    
+    function parentesis(oper, i){
+        if(oper == parentesisCierra){
+            document.write(i + " es Parentesis )<br/>")
+        }
+    }
+
+    function vaciarCadena(){
+        //document.write("vaciarCadena() <br/>")
+        //imprimirCadena();
+        for(var i = operadores.length; i > 0; i--){
+            //document.write("operadores: " + operadores[i-1] + " <br/>")
+            //document.write("parentesisAbre: " + parentesisAbre + " <br/>")
+            //document.write("cadena.length    : " + cadena.length + " <br/>")
+            if(operadores[i-1] == parentesisAbre){
+                operadores.pop();
+                //document.write("Se encontro el parentesis que cierra <br/>")
+                i = 0;
+            }else if(operadores[i-1] != parentesisCierra){
+                //document.write("operadores.pop " + (i-1) + " = " + operadores[i-1] + " <br/>")
+                p.push(operadores[i-1])
+                operadores.pop();
+            }else{
+                p.push(operadores[i-1])
+                operadores.pop();
+            }
+        }
+        //imprimirCadena();
+        imprimirOperadores();
+        imprimirP();
+    }
+
+
+    function esSumaResta(oper){
+        //document.write("esSumaResta() <br/>")
+        if(oper == suma || oper == resta){
+            //document.write("esSumaResta oper: " + oper + "<br/>")
+            return true;
+        }
+    }
+    
+    function esMultiDivi(oper, i){
+        if(oper == multiplicacion || oper == division){
+            
+        }
+    }
+
+    function esOperador(oper){
+        //document.write("esOperador() <br/>")
+        //document.write("oper: " + oper + " <br/>")
+        if(oper == multiplicacion || oper == division || oper == suma || oper == resta || oper ==          parentesisAbre){
+            //document.write("esOperador: " + oper + " <br/>")
+            //operadores.push(oper)
+            //document.write("oper en operadores: " + oper + " <br/>")
+            //document.write("operadores[0]: " + operadores[0] + " <br/>")
+            //document.write("operadores[1]: " + operadores[1] + " <br/>")
+            //imprimirOperadores();
+            return true;
+        }else{
+            //document.write("No es operador: " + oper + " <br/>")
+        }
+    }
+    
+    function imprimirCadena(){
+        document.write("Notación Infija = ");
+        for(var i = 0; i < cad.length; i++){
+            document.write(cadena[i] + " ");
+        }
+        document.write("<br/><br/>");
+    }
+
+    function imprimirP(){
+        document.write("Pila Postfija = ");
+        for(var i = 0; i < p.length; i++){
+            document.write(p[i] + " ");
+        }
+        document.write("<br/><br/>");
+    }
+
+    function imprimirOperadores(){
+        document.write("Pila operadores = ");
+        for(var i = 0; i < operadores.length; i++){
+            document.write(operadores[i] + " ");
+        }
+        document.write("<br/>");
+    }
+
+
+
+    </script>
+
+</body>
+</html>
+
+        
